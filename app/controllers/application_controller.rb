@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   end
 
   def brands
-  	@brands = Product.pluck(:brand).uniq
+  	@brands = Product.pluck(:brand).sort.uniq
   end
 
 
