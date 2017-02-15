@@ -3,16 +3,21 @@ class CartController < ApplicationController
 	before_filter :authenticate_user!, except: [:add_to_cart, :view_order]
 
   def add_to_cart
-    @order = current_order
 
-  	line_item = @order.line_items.new(product_id: params[:product_id], quantity: params[:quantity])
-    @order.save
+    if params[:quantity].to_i <= Product.find(params[:product_id]).quantity
+      @order = current_order
 
-    session[:order_id] = @order.id
+    	line_item = @order.line_items.new(product_id: params[:product_id], quantity: params[:quantity])
+      @order.save
 
-  	line_item.update(line_item_total: (line_item.product.price * line_item.quantity))
+      session[:order_id] = @order.id
 
-  	redirect_to :back
+    	line_item.update(line_item_total: (line_item.product.price * line_item.quantity))
+
+    	redirect_to :back
+    else
+      redirect_to Product.find(params[:product_id]), notice: "Sorry enough stock."
+    end
   end
 
   def view_order
@@ -43,6 +48,8 @@ class CartController < ApplicationController
     	@order.line_items.destroy_all
 
       session[:order_id] = nil
+    else
+      redirect_to :back, notice: "No items in cart!"
     end
   end
 

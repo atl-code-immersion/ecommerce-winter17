@@ -1,6 +1,10 @@
-<h1>Editing Product</h1>
+<% if can? :manage, Product %>
+	<h1>Editing Product</h1>
 
-<%= render 'form', product: @product %>
+	<%= render 'form', product: @product %>
 
-<%= link_to 'Show', @product %> |
-<%= link_to 'Back', products_path %>
+	<%= link_to 'Show', @product %> |
+	<%= link_to 'Back', products_path %>
+<% else %>
+	<%= render 'not_allowed' %>
+<% end %>
