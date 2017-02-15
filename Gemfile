@@ -25,6 +25,11 @@ gem 'devise'
 gem 'carrierwave'
 gem 'cancancan'
 
+gem 'stripe', git: 'https://github.com/stripe/stripe-ruby'
+gem 'figaro'
+gem 'certified' #for PC Users
+
+
 gem 'hirb'
 gem 'better_errors', group: :development
 # Use Uglifier as compressor for JavaScript assets

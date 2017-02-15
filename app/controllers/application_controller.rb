@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   before_action :categories, :brands
+  helper_method :current_order
 
   def categories
   	@categories = Category.order(:name)
@@ -13,6 +14,13 @@ class ApplicationController < ActionController::Base
   	@brands = Product.pluck(:brand).sort.uniq
   end
 
+  def current_order
+    if !session[:order_id].nil?
+      Order.find(session[:order_id])
+    else
+      Order.new
+    end
+  end
 
   protected
 
